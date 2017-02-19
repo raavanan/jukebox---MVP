@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import CreateJukebox from './CreateJukebox/Container'
+import JukeboxGrid from './JukeboxGrid/Container'
 
 class App extends Component {
 
@@ -7,6 +8,7 @@ class App extends Component {
     return (
       <div>
         <CreateJukebox />
+        <JukeboxGrid />
       </div>
     );
   }

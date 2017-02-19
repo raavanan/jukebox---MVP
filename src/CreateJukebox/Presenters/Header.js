@@ -24,7 +24,7 @@ const Header = () => {
     return (
         <div {...headerStyle}>
             <div {...navBar}>
-                <h1 {...logoStyle}>Youtube Jukebox</h1>
+                <h1 {...logoStyle}>Jukebox</h1>
             </div>
         </div>
     )
