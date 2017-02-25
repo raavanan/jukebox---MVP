@@ -1,0 +1,14 @@
+{
+ "jukeboxes" : [
+    {
+      "name" : "jukebox1",
+      "genre" : "alternative rock",
+      "key" : 1
+    },
+    {
+      "name" : "jukebox2",
+      "genre" : "punk",
+      "key" : 2
+    }
+   ]
+}
