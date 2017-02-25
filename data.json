@@ -9,6 +9,16 @@
       "name" : "jukebox2",
       "genre" : "punk",
       "key" : 2
+    },
+    {
+      "name" : "jukebox3",
+      "genre" : "punk",
+      "key" : 2
+    },
+    {
+      "name" : "jukebox4",
+      "genre" : "punk",
+      "key" : 2
     }
    ]
 }

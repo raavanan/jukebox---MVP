@@ -3,23 +3,65 @@ import {connect} from 'react-redux'
 import {css} from 'glamor'
 
 import * as types from './ActionTypes'
-import image1 from './genreImages/105.jpg'
+import {MontserratBold} from '../Fonts'
 
 const wrapperStyle = css({
-    width: '700px',
+    width: '100%',
     padding: '0px',
     margin:'0px auto',
     '& .jukebox':{
-        width:'350px',
-        height: '350px',
+        width:'50%',
+        height: '450px',
         float:'left',
         background:'#999',
         overflow:'hidden',
         position: 'relative',
         '& img': {
+            width: '100%',
             height: '100%',
             position: 'absolute',
             zIndex: 1
+        },
+        '& .info' : {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: 2,
+            background:'rgba(0,0,0,0.2)',
+            color: '#ffffff',
+            '& h1' : {
+                position: 'absolute',
+                bottom: '72px',
+                margin: '0px',
+                left: '40px',
+                fontSize: '36px',
+                fontFamily: MontserratBold
+            },
+            '& .listeners': {
+                position: 'absolute',
+                bottom: '33px',
+                left: '40px',
+                fontSize: '12px'
+            },
+            '& button': {
+                background: '#ffffff',
+                width: '100px',
+                height: '26px',
+                borderRadius: '50px',
+                border: 'none',
+                color: '#eb5322',
+                outline: 'none',
+                fontFamily: MontserratBold,
+                position: 'absolute',
+                bottom: '72px',
+                right: '40px',
+                '&:active': {
+                    background: '#eb5322',
+                    color: '#ffffff'
+                }
+            }
         }
     }
 })
@@ -30,12 +72,22 @@ class JukeboxGrid extends Component {
         this.props.dispatch({type : types.GET_ALL_JUKEBOXES})
     }
 
+    getRandomImage = () => {
+        const number = Math.floor(Math.random() * (120 - 101 + 1)) + 101
+
+        return number
+    }
+
     renderBoxes = () => {
          return this.props.jukeboxes.map(jb => {
                 return (
                     <div key={jb.key} className='jukebox'>
-                        <h1>{jb.name}</h1>
-                        <img src={image1} alt='img'/>
+                        <div className='info'>
+                            <h1>{jb.name}</h1>
+                            <p className='listeners'>13 listening</p>
+                            <button type='button'>Listen</button>
+                        </div>
+                        <img src={`/genreImages/${this.getRandomImage()}.jpg`} alt='img'/>
                     </div>
                 )
          })

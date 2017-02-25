@@ -10,7 +10,7 @@ export function* fetchJukeboxes(action) {
       const data = yield call([ref, ref.once], 'value')
 
       yield put({type: Types.GOT_ALL_JUKEBOXES, data : data.val()})
-      
+
    } catch (error) {
       yield put({type: Types.FAILED_TO_GET_JUKEBOXES, error})
    }
