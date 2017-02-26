@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {css} from 'glamor'
 
 import * as types from './ActionTypes'
@@ -11,7 +12,7 @@ const wrapperStyle = css({
     margin:'0px auto',
     '& .jukebox':{
         width:'50%',
-        height: '450px',
+        height: '350px',
         float:'left',
         background:'#999',
         overflow:'hidden',
@@ -85,7 +86,7 @@ class JukeboxGrid extends Component {
                         <div className='info'>
                             <h1>{jb.name}</h1>
                             <p className='listeners'>13 listening</p>
-                            <button type='button'>Listen</button>
+                            <button type='button'><Link to={`/player/${jb.slug}`}>Listen</Link></button>
                         </div>
                         <img src={`/genreImages/${this.getRandomImage()}.jpg`} alt='img'/>
                     </div>

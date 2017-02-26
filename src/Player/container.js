@@ -1,11 +1,17 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import {css} from 'glamor'
 
 import Header from './Components/Header'
 import PlayHead from './Components/PlayHead'
 import Playlist from './Components/Playlist'
+import AddVideo from './Components/AddVideo'
 
 class Player extends Component {
+    state = {
+        showAddVideo : true
+    }
+
     wrapper = css({
         width:'100%',
         height: '100vh',
@@ -13,15 +19,28 @@ class Player extends Component {
         overflow: 'hidden'
     })
 
+    toggleAddVideo = () => {
+        this.setState({
+            showAddVideo : !this.state.showAddVideo
+        })
+    }
+
     render(){
         return (
             <div {...this.wrapper}>
-                <Header />
+                <Header addVideo={this.toggleAddVideo} />
                 <Playlist />
-                <PlayHead />
+                <PlayHead currentVideo={this.props.currentVideo} />
+                {this.state.showAddVideo && <AddVideo close={this.toggleAddVideo} />}
             </div>
         )
     }
 }
 
-export default Player
+function mapStateToProps (state) {
+    return {
+        currentVideo: state.player.currentVideo
+    }
+}
+
+export default connect(mapStateToProps)(Player)

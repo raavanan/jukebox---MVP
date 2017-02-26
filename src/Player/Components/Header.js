@@ -17,7 +17,8 @@ let logoStyle = css({
     margin:'0px auto',
     position:'absolute',
     left:0,
-    right:0
+    right:0,
+    width:'200px'
 })
 
 let navBar = css({
@@ -46,7 +47,7 @@ let btn = css({
                 }
 })
 
-const Header = () => {
+const Header = (props) => {
     return (
         <div {...headerStyle}>
             <div {...navBar}>
@@ -54,7 +55,7 @@ const Header = () => {
                 <h1 {...logoStyle}>Jukebox</h1>
 
                 <button {...btn} type='button'>Playlist</button>
-                <button {...btn} type='button'>Add Song</button>
+                <button {...btn} onClick={props.addVideo} type='button'>Add Song</button>
 
             </div>
         </div>

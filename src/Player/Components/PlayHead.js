@@ -123,7 +123,7 @@ playHeadWrapper = css({
       height: '100%',
       width: '100%',
       playerVars: { // https://developers.google.com/youtube/player_parameters
-        autoplay: 0,
+        autoplay: 1,
         controls:0,
         modestBranding:1
       }
@@ -141,7 +141,7 @@ playHeadWrapper = css({
                             <img src={`/playerImg/prv.jpg`} alt='img'/>
                         </div>
                         <div className='now'>
-                            <Youtube videoId='YQHsXMglC9A' opts={this.opts} onReady={this.onReady} />
+                            <Youtube videoId={this.props.currentVideo} opts={this.opts} onReady={this.onReady} />
                         </div>
                         <div className='next'>
                             <div className='overlay'></div>
