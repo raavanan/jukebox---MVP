@@ -130,9 +130,11 @@ playHeadWrapper = css({
     }
 
     render () {
+        const videoId = this.props.currentVideo !== '' ? this.props.currentVideo.id.videoId : '',
+        videoTitle = this.props.currentVideo !== '' ? this.props.currentVideo.snippet.title : 'Add a song'
         return (
             <div {...this.playHeadWrapper}>
-                    <h1> Adele - Hello </h1>
+                    <h1>{videoTitle}</h1>
                     <div className='playHead'>
                         <div className='prev'>
                             <div className='overlay'></div>
@@ -141,7 +143,7 @@ playHeadWrapper = css({
                             <img src={`/playerImg/prv.jpg`} alt='img'/>
                         </div>
                         <div className='now'>
-                            <Youtube videoId={this.props.currentVideo} opts={this.opts} onReady={this.onReady} />
+                            <Youtube videoId={videoId} opts={this.opts} onReady={this.onReady} />
                         </div>
                         <div className='next'>
                             <div className='overlay'></div>

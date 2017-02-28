@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 import {css} from 'glamor'
+import {withRouter} from 'react-router-dom'
 
 import * as types from './ActionTypes'
+import {SET_JUKEBOX_ID} from '../Player/ActionTypes'
 import {MontserratBold} from '../Fonts'
 
 const wrapperStyle = css({
@@ -61,6 +62,10 @@ const wrapperStyle = css({
                 '&:active': {
                     background: '#eb5322',
                     color: '#ffffff'
+                },
+                '& a':{
+                    textDecoration: 'none',
+                    color: '#eb5322'
                 }
             }
         }
@@ -79,24 +84,25 @@ class JukeboxGrid extends Component {
         return number
     }
 
+    listenTo = (box) => {
+        this.props.dispatch({type: SET_JUKEBOX_ID, id: box.id})
+        this.props.push(`/player/${box.id}`)
+    }
+
     renderBoxes = () => {
-        const jb = this.props.jukeboxes
-        const boxes = []
-        for(let key in jb){
-            if(jb.hasOwnProperty(key)) {
-                const box = jb[key]
-                boxes.push(<div key={box.key} className='jukebox'>
+        return this.props.jukeboxes.map(box => {
+            const listen = this.listenTo.bind(null, box)
+            return (
+                <div key={box.id} className='jukebox'>
                         <div className='info'>
                             <h1>{box.name}</h1>
-                            <p className='listeners'>13 listening</p>
-                            <button type='button'><Link to={`/player/${box.slug}`}>Listen</Link></button>
+                            <p className='listeners'>{box.genre}</p>
+                            <button onClick={listen} type='button'>Listen</button>
                         </div>
                         <img src={`/genreImages/${this.getRandomImage()}.jpg`} alt='img'/>
                 </div>
-                )
-            }
-        }
-        return boxes
+            )
+        })
     }
 
     render(){
@@ -110,10 +116,10 @@ class JukeboxGrid extends Component {
 
 function mapStateToProps(state) {
   return {
-      jukeboxes : state.jukeboxes.jukeboxes
+      jukeboxes : state.jukeboxes.boxes
   }
 }
 
 
 
-export default connect(mapStateToProps)(JukeboxGrid)
+export default connect(mapStateToProps)(withRouter(JukeboxGrid))

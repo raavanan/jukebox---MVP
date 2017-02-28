@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {css} from 'glamor'
-import {GET_SEARCH_RESULTS, GET_VIDEO_INFO} from '../ActionTypes'
+import {GET_SEARCH_RESULTS, ADD_VIDEO} from '../ActionTypes'
 
 class AddVideo extends Component {
 
@@ -87,8 +87,8 @@ class AddVideo extends Component {
         this.refs.searchInput.focus()
     }
 
-    addVideo = (id) => {
-        this.props.dispatch({type: GET_VIDEO_INFO, id})
+    addVideo = (video) => {
+        this.props.dispatch({type: ADD_VIDEO, video})
         this.props.close()
     }
 
@@ -98,7 +98,7 @@ class AddVideo extends Component {
 
     renderResults = (result) => {
         return (
-             <div key={result.id.videoId} onClick={this.addVideo.bind(null, result.id.videoId)} className='result'>
+             <div key={result.id.videoId} onClick={this.addVideo.bind(null, result)} className='result'>
                 <img src={result.snippet.thumbnails.default.url} alt='result'/>
                 <h3>{result.snippet.title}</h3>
                 <p>{result.snippet.description}</p>

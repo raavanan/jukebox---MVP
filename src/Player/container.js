@@ -9,7 +9,7 @@ import AddVideo from './Components/AddVideo'
 
 class Player extends Component {
     state = {
-        showAddVideo : true
+        showAddVideo : false
     }
 
     wrapper = css({

@@ -1,33 +1,30 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import {Database} from '../Firebase'
-
-import * as Types from './ActionTypes'
+import {push} from '../helpers/firebase-sagas'
+import * as types from './ActionTypes'
+import {SYNC_JUKEBOXES} from '../JukeboxGrid/ActionTypes'
 import {slugify} from '../global'
 
 export function* createJukebox(action) {
    try {
-     const newJukebox = (path) => Database.ref(path).push()
-
-     const newBoxRef = yield call(newJukebox, '/')
-
      const jukeboxData = {
         genre : action.params.genre,
         name : action.params.name,
-        slug : slugify(action.params.name),
-        key : newBoxRef.key
+        slug : slugify(action.params.name)
       }
 
-      yield call([newBoxRef, newBoxRef.set], jukeboxData)
+      yield call(push, 'jukeboxes', () => (jukeboxData))
 
-      yield put({type: Types.SUCCESS_JUKEBOX_CREATE})
+      yield put({type: types.SUCCESS_JUKEBOX_CREATE})
+
+      yield put({type: SYNC_JUKEBOXES})
 
    } catch (error) {
 
-      yield put({type: Types.FAILED_CREATE_JUKEBOX, error})
+      yield put({type: types.FAILED_CREATE_JUKEBOX, error})
 
    }
 }
 
 export function* watchCreateJukeboxes() {
-  yield takeLatest(Types.REQUEST_CREATE_JUKEBOX, createJukebox)
+  yield takeLatest(types.REQUEST_CREATE_JUKEBOX, createJukebox)
 }

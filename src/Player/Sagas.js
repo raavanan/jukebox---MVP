@@ -14,7 +14,7 @@ const getResults = (q) => {
             })
 }
 
-export function* fetchSearchResults(action) {
+function* fetchSearchResults(action) {
    try {
       const data = yield call(getResults, action.q)
 
@@ -28,3 +28,5 @@ export function* fetchSearchResults(action) {
 export function* watchGetSearchResults() {
   yield takeLatest(Types.GET_SEARCH_RESULTS, fetchSearchResults)
 }
+
+

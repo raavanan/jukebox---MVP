@@ -1,20 +1,17 @@
 import * as types from './ActionTypes'
 
-export default (state = {isFetching: false, isError: false, jukeboxes : []}, action) => {
+export default (state = {isFetching: true, isError: false, boxes : []}, action) => {
   switch (action.type) {
 
-    case types.GET_ALL_JUKEBOXES : {
-        return {
-            ...state,
-            isFetching: true
-        }
-    }
-
     case types.GOT_ALL_JUKEBOXES : {
-        return {
-            ...state,
-            jukeboxes: action.data, isFetching: false
-        }
+        const data = action.data;
+            return {
+                ...state,
+                boxes: Object.keys(data).map(
+                    (key) => Object.assign({}, {id: key}, data[key])
+                ),
+                isFetching: false
+            }
     }
 
     case types.FAILED_TO_GET_JUKEBOXES : {
@@ -23,6 +20,18 @@ export default (state = {isFetching: false, isError: false, jukeboxes : []}, act
             isError: true, isFetching:false, error:action.error
         }
     }
+
+    case types.JUKEBOX_ADDED : {
+        const jukebox = {...action.jukebox.value, id: action.jukebox.key}
+        const syncdBoxes = state.isFetching ? state.boxes.concat(jukebox) : [jukebox]
+
+            return {
+                ...state,
+                boxes: syncdBoxes,
+                isFetching : true
+            }
+    }
+
     default:
       return state;
   }

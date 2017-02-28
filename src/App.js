@@ -55,7 +55,7 @@ export default class App extends Component {
       <BrowserRouter>
               <Switch>
                 <PublicRoute authed={this.state.authed} path='/login' component={Login} />
-                <PrivateRoute authed={this.state.authed} path='/' component={Home} />
+                <PrivateRoute authed={this.state.authed} exact path='/' component={Home} />
                 <PrivateRoute authed={this.state.authed} path='/player/:slug' component={Player} />
                 <Route render={() => <h3>No Match</h3>} />
               </Switch>
