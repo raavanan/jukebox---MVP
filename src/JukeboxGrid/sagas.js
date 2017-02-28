@@ -1,12 +1,13 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import database from '../Firebase'
+import {Database} from '../Firebase'
+
 import * as Types from './ActionTypes'
 
 
 
 export function* fetchJukeboxes(action) {
    try {
-      const ref = database.ref('jukeboxes')
+      const ref = Database.ref('/')
       const data = yield call([ref, ref.once], 'value')
 
       yield put({type: Types.GOT_ALL_JUKEBOXES, data : data.val()})

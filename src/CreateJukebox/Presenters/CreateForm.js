@@ -69,14 +69,15 @@ const inlineForm = css({
     }
 })
 
-const CreateForm = () => {
+const CreateForm = (props) => {
+
     return (
         <div {...wrapperStyle}>
             <h1>Create a jukebox</h1>
             <div {...inlineForm}>
-                <input type='text' placeholder='Name' />
-                <input type='text' placeholder='Genre' />
-                <button type='button'>Create</button>
+                <input id='jukeboxName' type='text' placeholder='Name' />
+                <input id='jukeboxGenre' type='text' placeholder='Genre' />
+                <button onClick={props.createJukebox} type='button'>Create</button>
             </div>
             <span>20K Listners</span>
         </div>

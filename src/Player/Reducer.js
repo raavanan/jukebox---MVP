@@ -13,7 +13,8 @@ export default (state = {isError: false, searchResults : [], currentVideo : '', 
     case types.GET_VIDEO_INFO : {
       return {
         ...state,
-        currentVideo: action.id
+        currentVideo: action.id,
+        searchResults: []
       }
     }
 

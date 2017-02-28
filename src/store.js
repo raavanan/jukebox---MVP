@@ -12,5 +12,3 @@ composeStore = compose(applyMiddleware(sagaMiddleware),
 export const store = createStore(rootReducer, composeStore)
 
 sagaMiddleware.run(RootSaga)
-
-

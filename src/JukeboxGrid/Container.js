@@ -80,18 +80,23 @@ class JukeboxGrid extends Component {
     }
 
     renderBoxes = () => {
-         return this.props.jukeboxes.map(jb => {
-                return (
-                    <div key={jb.key} className='jukebox'>
+        const jb = this.props.jukeboxes
+        const boxes = []
+        for(let key in jb){
+            if(jb.hasOwnProperty(key)) {
+                const box = jb[key]
+                boxes.push(<div key={box.key} className='jukebox'>
                         <div className='info'>
-                            <h1>{jb.name}</h1>
+                            <h1>{box.name}</h1>
                             <p className='listeners'>13 listening</p>
-                            <button type='button'><Link to={`/player/${jb.slug}`}>Listen</Link></button>
+                            <button type='button'><Link to={`/player/${box.slug}`}>Listen</Link></button>
                         </div>
                         <img src={`/genreImages/${this.getRandomImage()}.jpg`} alt='img'/>
-                    </div>
+                </div>
                 )
-         })
+            }
+        }
+        return boxes
     }
 
     render(){

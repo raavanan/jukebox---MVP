@@ -70,11 +70,11 @@ class AddVideo extends Component {
                     float: 'left',
                 },
                 '& h3': {
-                    fontSize: '24px',
+                    fontSize: '12px',
                     margin: '10px'
                 },
                 '& p': {
-                    fontSize: '12px',
+                    fontSize: '8px',
                     color: '#777',
                     height:'50px',
                     overflow: 'hidden'
