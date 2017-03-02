@@ -1,8 +1,10 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import {css} from 'glamor'
 import Youtube from 'react-youtube'
 
 import {MontserratBold} from '../../Fonts'
+import * as types from '../ActionTypes'
 
 class PlayHead extends Component {
 
@@ -96,20 +98,32 @@ playHeadWrapper = css({
 
 
     onReady = (event) => {
-        console.log('ready')
         this.setState({
-            player: event.target,
-            currentSongDuration: (event.target.getDuration()/60)
+            player: event.target
         })
         this.validate()
+    }
+
+    onEnd = () => {
+        const video = this.props.currentVideo
+        this.props.dispatch({type: types.VIDEO_ENDED, video})
+    }
+
+    onPlay = (event) => {
+
+        const duration = this.state.player.getDuration()/60
+
+        this.setState({
+            currentSongDuration : duration
+        })
+        this.validate()
+
     }
 
     validate = () => {
         if(this.state.currentSongDuration > 8){
             alert('this song is too long')
-            let url = "https://www.youtube.com/watch?v=iw-m5fkwNWU"
-            const videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
-            alert(videoid[1])
+            this.onEnd()
         }
     }
 
@@ -130,10 +144,12 @@ playHeadWrapper = css({
     }
 
     render () {
+
         const videoId = this.props.currentVideo !== '' ? this.props.currentVideo.id.videoId : '',
         videoTitle = this.props.currentVideo !== '' ? this.props.currentVideo.snippet.title : 'Add a song'
+
         return (
-            <div {...this.playHeadWrapper}>
+            <div {...this.playHeadWrapper} style={{width: this.props.togglePlaylist ? '70%' : '100%'}}>
                     <h1>{videoTitle}</h1>
                     <div className='playHead'>
                         <div className='prev'>
@@ -143,9 +159,9 @@ playHeadWrapper = css({
                             <img src={`/playerImg/prv.jpg`} alt='img'/>
                         </div>
                         <div className='now'>
-                            <Youtube videoId={videoId} opts={this.opts} onReady={this.onReady} />
+                            <Youtube videoId={videoId} opts={this.opts} onEnd={this.onEnd} onReady={this.onReady} onPlay={this.onPlay} />
                         </div>
-                        <div className='next'>
+                        <div onClick={this.onEnd} className='next'>
                             <div className='overlay'></div>
                             <span>2</span>
                             <h1>NxT</h1>
@@ -157,5 +173,12 @@ playHeadWrapper = css({
     }
 }
 
-export default PlayHead
+function mapStateToProps(state) {
+    return {
+        currentVideo : state.player.currentVideo,
+        isEmpty : state.player.playlistEmpty
+    }
+}
+
+export default connect(mapStateToProps)(PlayHead)
 

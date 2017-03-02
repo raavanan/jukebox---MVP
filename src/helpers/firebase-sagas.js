@@ -138,7 +138,7 @@ export function* push(path, fn, getKey = false) {
         take(opts)
     ];
 
-    if(getKey && error === undefined) {
+    if(getKey && !error) {
       return key;
     }
 

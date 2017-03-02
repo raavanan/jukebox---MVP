@@ -4,7 +4,7 @@ import {css} from 'glamor'
 import {withRouter} from 'react-router-dom'
 
 import * as types from './ActionTypes'
-import {SET_JUKEBOX_ID} from '../Player/ActionTypes'
+import {LISTEN_JUKEBOX} from '../Player/ActionTypes'
 import {MontserratBold} from '../Fonts'
 
 const wrapperStyle = css({
@@ -85,7 +85,7 @@ class JukeboxGrid extends Component {
     }
 
     listenTo = (box) => {
-        this.props.dispatch({type: SET_JUKEBOX_ID, id: box.id})
+        this.props.dispatch({type: LISTEN_JUKEBOX, box})
         this.props.push(`/player/${box.id}`)
     }
 

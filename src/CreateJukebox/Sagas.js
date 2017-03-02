@@ -12,7 +12,7 @@ export function* createJukebox(action) {
         slug : slugify(action.params.name)
       }
 
-      yield call(push, 'jukeboxes', () => (jukeboxData))
+      yield call(push, 'jukeboxes', () => (jukeboxData), true)
 
       yield put({type: types.SUCCESS_JUKEBOX_CREATE})
 

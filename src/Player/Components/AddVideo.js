@@ -88,7 +88,11 @@ class AddVideo extends Component {
     }
 
     addVideo = (video) => {
-        this.props.dispatch({type: ADD_VIDEO, video})
+        const params = {video, searchResults : []}
+        if(this.props.playlistEmpty){
+            params.currentVideo = video
+        }
+        this.props.dispatch({type: ADD_VIDEO, params})
         this.props.close()
     }
 
@@ -124,7 +128,8 @@ class AddVideo extends Component {
 
 function mapStateToProps(state){
     return {
-        searchResults: state.player.searchResults
+        searchResults: state.player.searchResults,
+        playlistEmpty : state.player.playlistEmpty
     }
 }
 

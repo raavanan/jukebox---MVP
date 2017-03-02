@@ -1,7 +1,7 @@
 
 export const GAPI_KEY = 'AIzaSyC_HowlHisUiAyQDJCHZlE57eq6onUOXrg'
 
-export const YOUTUBE_SEARCH_API = `https://www.googleapis.com/youtube/v3/search?part=snippet&key=${GAPI_KEY}&type=video&videoCategoryId=10&maxResults=6`
+export const YOUTUBE_SEARCH_API = `https://www.googleapis.com/youtube/v3/search?part=snippet&key=${GAPI_KEY}&type=video&maxResults=6&videoSyndicated=true`
 
 export const YOUTUBE_VIDEO_API = `https://www.googleapis.com/youtube/v3/videos?part=snippet&key=${GAPI_KEY}`
 

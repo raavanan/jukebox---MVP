@@ -5,12 +5,6 @@ import {MontserratBold} from '../../Fonts'
 
 /* styles */
 
-let headerStyle = css({
-    width:'100%',
-    position:'relative',
-    transition:'width 0.4s ease'
-})
-
 let logoStyle = css({
     color: 'white',
     fontSize: '18px',
@@ -48,13 +42,18 @@ let btn = css({
 })
 
 const Header = (props) => {
+    let headerStyle = css({
+    width:props.togglePlaylist ? '70%' : '100%',
+    position:'relative',
+    transition:'width 0.4s ease'
+})
     return (
         <div {...headerStyle}>
             <div {...navBar}>
 
                 <h1 {...logoStyle}>Jukebox</h1>
 
-                <button {...btn} type='button'>Playlist</button>
+                <button {...btn} onClick={props.showPlaylist} type='button'>Playlist</button>
                 <button {...btn} onClick={props.addVideo} type='button'>Add Song</button>
 
             </div>
