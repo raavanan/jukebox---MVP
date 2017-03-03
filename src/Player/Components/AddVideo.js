@@ -89,6 +89,8 @@ class AddVideo extends Component {
 
     addVideo = (video) => {
         const params = {video, searchResults : []}
+        const {uid, displayName, photoURL} = this.props.user
+        params.video.addedBy = {uid, displayName, photoURL}
         if(this.props.playlistEmpty){
             params.currentVideo = video
         }
@@ -129,7 +131,8 @@ class AddVideo extends Component {
 function mapStateToProps(state){
     return {
         searchResults: state.player.searchResults,
-        playlistEmpty : state.player.playlistEmpty
+        playlistEmpty : state.player.playlistEmpty,
+        user : state.login.user
     }
 }
 

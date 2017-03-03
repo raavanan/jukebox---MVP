@@ -38,8 +38,6 @@ export function* addVideo(action) {
 
     yield put({type: types.SUCCESS_ADD_VIDEO})
 
-    yield put({type: types.SYNC_PLAYLIST})
-
    } catch (error) {
 
       yield put({type: types.FAILED_ADD_VIDEO, error})
@@ -49,13 +47,15 @@ export function* addVideo(action) {
 
 function* getPlaylist(action){
     try {
-     const jukeboxKey = yield select(getKey)
+    const jukeboxKey = yield select(getKey)
 
-     const path = `playlist-${jukeboxKey}`
+    const path = `playlist-${jukeboxKey}`
 
-     const playlist = yield call(getAll, path)
+    const playlist = yield call(getAll, path)
 
-     yield put({type: types.GOT_PLAYLIST, playlist})
+    yield put({type: types.GOT_PLAYLIST, playlist})
+
+    yield put({type: types.SYNC_PLAYLIST})
 
     } catch (error) {
         yield put({type: types.FAILED_GET_PLAYLIST, error})
@@ -70,11 +70,9 @@ function* playNext(action){
 
         const video = action.video
 
-        console.log(jukeboxKey, video)
-
         yield call(remove, path, video.itemId)
 
-        yield call(push, `${path}-prev`, () => (video))
+        //yield call(push, `${path}-prev`, () => (video))
 
         yield getPlaylist()
 

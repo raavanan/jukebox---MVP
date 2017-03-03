@@ -12,7 +12,7 @@ import * as types from './ActionTypes'
 class Player extends Component {
     state = {
         showAddVideo : false,
-        showPlaylist : false
+        showPlaylist : true
     }
 
     wrapper = css({

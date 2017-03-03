@@ -78,12 +78,6 @@ class JukeboxGrid extends Component {
         this.props.dispatch({type : types.GET_ALL_JUKEBOXES})
     }
 
-    getRandomImage = () => {
-        const number = Math.floor(Math.random() * (120 - 101 + 1)) + 101
-
-        return number
-    }
-
     listenTo = (box) => {
         this.props.dispatch({type: LISTEN_JUKEBOX, box})
         this.props.push(`/player/${box.id}`)
@@ -99,16 +93,17 @@ class JukeboxGrid extends Component {
                             <p className='listeners'>{box.genre}</p>
                             <button onClick={listen} type='button'>Listen</button>
                         </div>
-                        <img src={`/genreImages/${this.getRandomImage()}.jpg`} alt='img'/>
+                        <img src={`/genreImages/${box.img}`} alt='img'/>
                 </div>
             )
         })
     }
 
     render(){
+        const renderBoxes = this.renderBoxes()
         return (
             <div {...wrapperStyle}>
-                {this.renderBoxes()}
+                {renderBoxes}
             </div>
         )
     }

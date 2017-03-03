@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { Route, BrowserRouter, Redirect, Switch } from 'react-router-dom'
+import {connect} from 'react-redux'
 
 import Player from './Player/container'
 import Login from './Login/Container'
 import Home from './Home'
 import { Auth } from './Firebase'
+import {SET_USER} from './Login/ActionTypes'
 
 function PrivateRoute ({component: Component, authed, ...rest}) {
   return (
@@ -27,8 +29,7 @@ function PublicRoute ({component: Component, authed, ...rest}) {
     />
   )
 }
-
-export default class App extends Component {
+class App extends Component {
   state = {
     authed: false,
     loading: true,
@@ -40,6 +41,9 @@ export default class App extends Component {
           authed: true,
           loading: false,
         })
+
+        this.props.dispatch({type: SET_USER, user})
+
       } else {
         this.setState({
           loading: false
@@ -63,3 +67,11 @@ export default class App extends Component {
     );
   }
 }
+
+function mapStateToProps(state){
+  return {}
+}
+
+export default connect(mapStateToProps)(App)
+
+

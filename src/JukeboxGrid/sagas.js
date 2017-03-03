@@ -12,6 +12,8 @@ export function* fetchJukeboxes(action) {
 
       yield put({type: types.GOT_ALL_JUKEBOXES, data})
 
+      yield put({type: types.SYNC_JUKEBOXES})
+
    } catch (error) {
       yield put({type: types.FAILED_TO_GET_JUKEBOXES, error})
    }

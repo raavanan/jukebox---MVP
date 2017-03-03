@@ -16,6 +16,14 @@ export default (state = {user : {} }, action) => {
             isError: true, error: action.error
         }
     }
+
+    case types.SET_USER : {
+        return {
+            ...state,
+            user : action.user
+        }
+    }
+
     default:
       return state;
   }

@@ -32,6 +32,14 @@ export default (state = {isFetching: true, isError: false, boxes : []}, action) 
             }
     }
 
+    case types.JUKEBOX_REMOVED : {
+        const syncdBoxes = state.boxes.pop({...action.jukebox.value, id: action.jukebox.key})
+        return {
+            boxes: syncdBoxes,
+            ...state
+        }
+    }
+
     default:
       return state;
   }

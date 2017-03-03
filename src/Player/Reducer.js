@@ -63,7 +63,7 @@ export default (state = baseState, action) => {
     }
 
     case types.VIDEO_ADDED : {
-        const video = {...action.video.value, id: action.video.key}
+        const video = {...action.video.value, itemId: action.video.key}
         const syncdList = state.isSyncing ? state.playlist.concat(video) : [video]
 
             return {
