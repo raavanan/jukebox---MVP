@@ -3,8 +3,8 @@ import axios from 'axios'
 
 import * as types from './ActionTypes'
 import {YOUTUBE_SEARCH_API} from '../global'
-import { push, getAll, remove, CHILD_ADDED, sync } from '../helpers/firebase-sagas'
-import {getKey} from './Reducer'
+import { push, getAll, get, remove, CHILD_ADDED, sync, update } from '../helpers/firebase-sagas'
+import {getKey, getCurrentVideo} from './Reducer'
 
 const getResults = (q) => {
 
@@ -50,6 +50,10 @@ function* getPlaylist(action){
     const jukeboxKey = yield select(getKey)
 
     const path = `playlist-${jukeboxKey}`
+
+    const box = yield call(get, 'jukeboxes', jukeboxKey)
+
+    yield put({type: types.LISTEN_JUKEBOX, box})
 
     const playlist = yield call(getAll, path)
 
@@ -118,6 +122,27 @@ function* syncPlaylist() {
 
 export function* watchSyncPlaylist() {
   yield takeEvery(types.SYNC_PLAYLIST, syncPlaylist)
+}
+
+function* playtimeUpdate(action) {
+    try {
+        const currentVideo = yield select(getCurrentVideo)
+        const key = yield select(getKey)
+
+        const path = `playlist-${key}/${currentVideo.itemId}`
+
+        yield call(update, path, 'playtime', {time : action.time})
+
+        yield put({type: types.PLAY_TIME_UPDATE_SUCCESS})
+
+    } catch (error) {
+
+        yield put({type: types.PLAY_TIME_UPDATE_FAILURE, error})
+    }
+}
+
+export function* watchPlaytimeUpdate() {
+    yield takeEvery(types.UPDATE_PLAY_TIME, playtimeUpdate)
 }
 
 

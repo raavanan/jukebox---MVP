@@ -1,5 +1,5 @@
 import {watchGetJukeboxes, watchSyncJukebox} from './JukeboxGrid/Sagas'
-import {watchGetSearchResults, watchAddVideo, watchGetPlaylist, watchVideoEnded, watchSyncPlaylist} from './Player/Sagas'
+import {watchGetSearchResults, watchAddVideo, watchGetPlaylist, watchVideoEnded, watchSyncPlaylist, watchPlaytimeUpdate} from './Player/Sagas'
 import {watchLoginGoogle} from './Login/Sagas'
 import {watchCreateJukeboxes} from './CreateJukebox/Sagas'
 
@@ -14,6 +14,7 @@ export default function* rootSaga() {
     watchAddVideo(),
     watchGetPlaylist(),
     watchVideoEnded(),
-    watchSyncPlaylist()
+    watchSyncPlaylist(),
+    watchPlaytimeUpdate()
   ]
 }

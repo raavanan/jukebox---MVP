@@ -31,3 +31,9 @@ export const SYNC_PLAYLIST = 'sync playlist'
 export const VIDEO_ADDED = 'new video added to playlist'
 
 export const RESET_PLAYER = 'reset player'
+
+export const UPDATE_PLAY_TIME = 'update play time'
+
+export const PLAY_TIME_UPDATE_SUCCESS = 'playtime update success'
+
+export const PLAY_TIME_UPDATE_FAILURE = 'playtime update failure'

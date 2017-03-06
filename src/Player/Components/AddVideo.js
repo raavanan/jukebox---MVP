@@ -91,6 +91,7 @@ class AddVideo extends Component {
         const params = {video, searchResults : []}
         const {uid, displayName, photoURL} = this.props.user
         params.video.addedBy = {uid, displayName, photoURL}
+        params.video.playtime = {time : 0}
         if(this.props.playlistEmpty){
             params.currentVideo = video
         }

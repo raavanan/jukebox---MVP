@@ -5,6 +5,7 @@ import Header from './Presenters/Header'
 import CreateForm from './Presenters/CreateForm'
 import {Auth} from '../Firebase'
 import {REQUEST_CREATE_JUKEBOX} from './ActionTypes'
+import {slugify, getRandomNumber} from '../global'
 
 class CreateJukebox extends Component {
 
@@ -15,13 +16,18 @@ class CreateJukebox extends Component {
 
     createJukebox = () => {
         const name = document.getElementById('jukeboxName'),
-        genre = document.getElementById('jukeboxGenre')
+        genre = document.getElementById('jukeboxGenre'),
+        {uid, displayName, photoURL} = this.props.user
+
         if(name.value !== '' && genre.value !== ''){
-            const params = {
+            const jukeboxData = {
+                genre : genre.value,
                 name : name.value,
-                genre : genre.value
+                slug : slugify(name.value),
+                img : `${getRandomNumber(101, 120)}.jpg`,
+                creator : {uid, displayName, photoURL}
             }
-            this.props.dispatch({type : REQUEST_CREATE_JUKEBOX, params})
+            this.props.dispatch({type : REQUEST_CREATE_JUKEBOX, jukeboxData})
         }
     }
 
@@ -37,6 +43,7 @@ class CreateJukebox extends Component {
 
 function mapStateToProps(state, props) {
   return {
+      user : state.login.user
 
   }
 }

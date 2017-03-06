@@ -1,6 +1,6 @@
 import * as types from './ActionTypes'
 
-const baseState = {isError: false,playlistEmpty:true,playlist : [], searchResults : [], currentVideo : '', prevVideo : {}, isSyncing : false}
+const baseState = {isError: false,playlistEmpty:true,playlist : [], searchResults : [], currentVideo : '', prevVideo : {}, isSyncing : false, creator : {}}
 
 export default (state = baseState, action) => {
   switch (action.type) {
@@ -73,6 +73,13 @@ export default (state = baseState, action) => {
             }
     }
 
+    // case types.PLAY_TIME_UPDATE_SUCCESS : {
+    //   return {
+    //     ...state,
+    //     currentVideo : {...state.currentVideo, playtime : action.time}
+    //   }
+    // }
+
     case types.RESET_PLAYER : {
       return {
         ...baseState
@@ -85,3 +92,7 @@ export default (state = baseState, action) => {
 }
 
 export const getKey  = (state) => (state.player.id)
+
+export const getCurrentVideo = (state) => (state.player.currentVideo)
+
+export const getCreatorId = (state) => (state.player.creator.uid)

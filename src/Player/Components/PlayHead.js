@@ -10,7 +10,9 @@ class PlayHead extends Component {
 
     state = {
         player: '',
-        currentSongDuration: 0
+        currentSongDuration: 0,
+        mute: 'mute',
+        playTimer : ''
     }
 
     /* styles */
@@ -101,23 +103,51 @@ playHeadWrapper = css({
         this.setState({
             player: event.target
         })
-        this.validate()
     }
 
     onEnd = () => {
         const video = this.props.currentVideo
         this.props.dispatch({type: types.VIDEO_ENDED, video})
+        clearInterval(this.state.playTimer)
     }
 
     onPlay = (event) => {
 
-        const duration = this.state.player.getDuration()/60
+        const player = this.state.player
+
+        const duration = player.getDuration()/60
 
         this.setState({
             currentSongDuration : duration
         })
+
+        if(this.props.userId === this.props.creatorId){
+            this.setState({
+                playTimer : setInterval(this.updatePlaytime, 10000)
+            })
+        } else {
+            player.mute()
+            this.setState({mute : 'unMute'})
+        }
+
         this.validate()
 
+    }
+
+    updatePlaytime = () => {
+        const player = this.state.player
+        const time = player.getCurrentTime()
+        this.props.dispatch({type: types.UPDATE_PLAY_TIME, time})
+    }
+
+    toggleMute = () => {
+        if(this.state.mute === 'unMute'){
+            this.state.player.unMute()
+            this.setState({mute : 'Mute'})
+        } else {
+            this.state.player.mute()
+            this.setState({mute : 'unMute'})
+        }
     }
 
     validate = () => {
@@ -133,19 +163,13 @@ playHeadWrapper = css({
         return number
     }
 
-    opts = {
-      height: '100%',
-      width: '100%',
-      playerVars: { // https://developers.google.com/youtube/player_parameters
-        autoplay: 1,
-        controls:0,
-        modestBranding:1
-      }
+    componentWillUnmount(){
+        clearInterval(this.state.playTimer)
     }
 
     render () {
 
-        const videoId = this.props.currentVideo !== '' ? this.props.currentVideo.id.videoId : '',
+        const videoId = this.props.currentVideo !== '' ? this.props.currentVideo.id.videoId : false,
         videoTitle = this.props.currentVideo !== '' ? this.props.currentVideo.snippet.title : 'Add a song'
 
         return (
@@ -159,7 +183,26 @@ playHeadWrapper = css({
                             <img src={`/playerImg/prv.jpg`} alt='img'/>
                         </div>
                         <div className='now'>
-                            <Youtube videoId={videoId} opts={this.opts} onEnd={this.onEnd} onReady={this.onReady} onPlay={this.onPlay} />
+                            {
+                                videoId
+                                &&
+                                <Youtube
+                                    videoId={videoId}
+                                    opts={{
+                                        height: '100%',
+                                        width: '100%',
+                                        playerVars: {
+                                            autoplay: 1,
+                                            controls:0,
+                                            modestBranding:1,
+                                            start: 0
+                                            }
+                                        }}
+                                    onEnd={this.onEnd}
+                                    onReady={this.onReady}
+                                    onPlay={this.onPlay}
+                                />
+                        }
                         </div>
                         <div onClick={this.onEnd} className='next'>
                             <div className='overlay'></div>
@@ -168,6 +211,7 @@ playHeadWrapper = css({
                             <img src={`/playerImg/nxt.jpg`} alt='img'/>
                         </div>
                     </div>
+                    <div className='controls'><button onClick={this.toggleMute}>{this.state.mute}</button></div>
             </div>
         )
     }
@@ -176,7 +220,9 @@ playHeadWrapper = css({
 function mapStateToProps(state) {
     return {
         currentVideo : state.player.currentVideo,
-        isEmpty : state.player.playlistEmpty
+        isEmpty : state.player.playlistEmpty,
+        creatorId: state.player.creator.uid ? state.player.creator.uid : '',
+        userId : state.login.user.uid ? state.login.user.uid : ''
     }
 }
 
