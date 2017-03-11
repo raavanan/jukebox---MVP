@@ -53,8 +53,8 @@ const Header = (props) => {
 
                 <h1 {...logoStyle}>Jukebox</h1>
 
-                <button {...btn} onClick={props.showPlaylist} type='button'>Playlist</button>
-                <button {...btn} onClick={props.addVideo} type='button'>Add Song</button>
+                <button {...btn} onClick={props.showPlaylist} type='button'>{`Playlist (${props.songCount})`}</button>
+                <button {...btn} onClick={props.addVideo} type='button'>Add song</button>
 
             </div>
         </div>

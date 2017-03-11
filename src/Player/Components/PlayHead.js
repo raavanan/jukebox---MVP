@@ -9,10 +9,12 @@ import * as types from '../ActionTypes'
 class PlayHead extends Component {
 
     state = {
-        player: '',
         currentSongDuration: 0,
         mute: 'mute',
-        playTimer : ''
+        playTimer : '',
+        startTime : 0,
+        videoId : false,
+        videoTitle: 'Add a Song'
     }
 
     /* styles */
@@ -103,6 +105,9 @@ playHeadWrapper = css({
         this.setState({
             player: event.target
         })
+
+        this.state.player.seekTo(this.state.startTime)
+        console.log('ready')
     }
 
     onEnd = () => {
@@ -123,7 +128,7 @@ playHeadWrapper = css({
 
         if(this.props.userId === this.props.creatorId){
             this.setState({
-                playTimer : setInterval(this.updatePlaytime, 10000)
+                playTimer : setInterval(this.updatePlaytime, 5000)
             })
         } else {
             player.mute()
@@ -167,14 +172,28 @@ playHeadWrapper = css({
         clearInterval(this.state.playTimer)
     }
 
-    render () {
+    componentWillReceiveProps(nextProps){
+        if(nextProps.currentVideo !== ''){
+            console.log('updated')
+            const videoId = nextProps.currentVideo.id.videoId,
 
-        const videoId = this.props.currentVideo !== '' ? this.props.currentVideo.id.videoId : false,
-        videoTitle = this.props.currentVideo !== '' ? this.props.currentVideo.snippet.title : 'Add a song'
+            startTime = nextProps.currentVideo && nextProps.currentVideo.playtime ? nextProps.currentVideo.playtime.time : 0,
+
+            videoTitle = nextProps.currentVideo.snippet.title
+
+                    this.setState({
+                        startTime,
+                        videoId,
+                        videoTitle
+                    })
+        }
+    }
+
+    render () {
 
         return (
             <div {...this.playHeadWrapper} style={{width: this.props.togglePlaylist ? '70%' : '100%'}}>
-                    <h1>{videoTitle}</h1>
+                    <h1>{this.state.videoTitle}</h1>
                     <div className='playHead'>
                         <div className='prev'>
                             <div className='overlay'></div>
@@ -184,10 +203,10 @@ playHeadWrapper = css({
                         </div>
                         <div className='now'>
                             {
-                                videoId
+                                this.state.videoId
                                 &&
                                 <Youtube
-                                    videoId={videoId}
+                                    videoId={this.state.videoId}
                                     opts={{
                                         height: '100%',
                                         width: '100%',

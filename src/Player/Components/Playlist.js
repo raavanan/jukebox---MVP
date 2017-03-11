@@ -36,9 +36,11 @@ playlistWrapper = css({
             '& .video-title' : {
                 position:'absolute',
                 top: '20px',
-                left:'120px',
+                left:'95px',
                 fontSize: '14px',
                 width:'200px',
+                overflow:'hidden',
+                height: '38px',
                 zIndex: 2
             },
             '& .addedBy' : {

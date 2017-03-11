@@ -73,12 +73,15 @@ export default (state = baseState, action) => {
             }
     }
 
-    // case types.PLAY_TIME_UPDATE_SUCCESS : {
-    //   return {
-    //     ...state,
-    //     currentVideo : {...state.currentVideo, playtime : action.time}
-    //   }
-    // }
+    case types.VIDEO_REMOVED : {
+        const syncdList = state.playlist.pop({...action.video.value, id: action.video.key}),
+        playlistEmpty = syncdList.length === 0 ? true : false
+        return {
+            playlist: syncdList,
+            playlistEmpty,
+            ...state
+        }
+    }
 
     case types.RESET_PLAYER : {
       return {

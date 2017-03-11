@@ -80,7 +80,7 @@ class JukeboxGrid extends Component {
 
     listenTo = (box) => {
         this.props.dispatch({type: LISTEN_JUKEBOX, box})
-        this.props.push(`/player/${box.id}`)
+        this.props.history.push(`/player/${box.id}`)
     }
 
     renderBoxes = () => {

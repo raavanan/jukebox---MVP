@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import * as types from './ActionTypes'
 import {YOUTUBE_SEARCH_API} from '../global'
-import { push, getAll, get, remove, CHILD_ADDED, sync, update } from '../helpers/firebase-sagas'
+import { push, getAll, get, remove, CHILD_ADDED, CHILD_REMOVED, sync, update } from '../helpers/firebase-sagas'
 import {getKey, getCurrentVideo} from './Reducer'
 
 const getResults = (q) => {
@@ -57,9 +57,11 @@ function* getPlaylist(action){
 
     const playlist = yield call(getAll, path)
 
-    yield put({type: types.GOT_PLAYLIST, playlist})
+    if(playlist){
+         yield put({type: types.GOT_PLAYLIST, playlist})
+    }
 
-    yield put({type: types.SYNC_PLAYLIST})
+     yield put({type: types.SYNC_PLAYLIST})
 
     } catch (error) {
         yield put({type: types.FAILED_GET_PLAYLIST, error})
@@ -110,13 +112,21 @@ function videoAdded(video){
   }
 }
 
+function videoRemoved(video) {
+    return {
+        type: types.VIDEO_REMOVED,
+        video
+    }
+}
+
 function* syncPlaylist() {
     const jukeboxKey = yield select(getKey)
 
     const path = `playlist-${jukeboxKey}`
 
     yield fork(sync, path, {
-        [CHILD_ADDED]: videoAdded
+        [CHILD_ADDED]: videoAdded,
+        [CHILD_REMOVED]: videoRemoved
     })
 }
 
@@ -129,9 +139,9 @@ function* playtimeUpdate(action) {
         const currentVideo = yield select(getCurrentVideo)
         const key = yield select(getKey)
 
-        const path = `playlist-${key}/${currentVideo.itemId}`
+        const path = `playlist-${key}/${currentVideo.itemId}/`
 
-        yield call(update, path, 'playtime', {time : action.time})
+        yield call(update, path, 'playtime', {time:action.time})
 
         yield put({type: types.PLAY_TIME_UPDATE_SUCCESS})
 

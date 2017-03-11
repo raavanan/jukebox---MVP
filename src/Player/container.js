@@ -12,7 +12,7 @@ import * as types from './ActionTypes'
 class Player extends Component {
     state = {
         showAddVideo : false,
-        showPlaylist : true
+        showPlaylist : false
     }
 
     wrapper = css({
@@ -43,9 +43,10 @@ class Player extends Component {
     }
 
     render(){
+        const songCount = this.props.playlist.length
         return (
             <div {...this.wrapper}>
-                <Header showPlaylist={this.togglePlaylist} addVideo={this.toggleAddVideo} togglePlaylist={this.state.showPlaylist} />
+                <Header showPlaylist={this.togglePlaylist} addVideo={this.toggleAddVideo} songCount={songCount} togglePlaylist={this.state.showPlaylist} />
                 <Playlist togglePlaylist={this.state.showPlaylist} playlist={this.props.playlist} />
                 <PlayHead togglePlaylist={this.state.showPlaylist} />
                 {this.state.showAddVideo && <AddVideo close={this.toggleAddVideo} />}
