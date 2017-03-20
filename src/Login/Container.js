@@ -2,13 +2,22 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {css} from 'glamor'
 
+
+/*********  File imports  **********/
+
 import {REQUEST_GOOGLE_LOGIN} from './ActionTypes'
 import bg from './login.jpg'
 
 
 
 class Login extends Component {
-
+    
+    /**================================================== *
+     * ==========  Style object begin  ========== *
+     * ================================================== */
+    
+    
+    
     loginWrapper = css({
         background: `url(${bg}) no-repeat center center fixed`,
         backgroundSize: 'cover',
@@ -36,9 +45,18 @@ class Login extends Component {
         }
     })
 
+    /* =======  End of Section comment block  ======= */
+
+    /**
+     *
+     * @function googleLogin
+     *  dispatch REQUEST_GOOGLE_LOGIN to init login process
+     */
     googleLogin = () => {
         this.props.dispatch({type:REQUEST_GOOGLE_LOGIN})
     }
+
+    /*********  render  **********/
 
     render() {
         return (
@@ -49,6 +67,12 @@ class Login extends Component {
     }
 }
 
+/**
+ *
+ * mapStateToProps
+ * user : logged in user data
+ *
+ */
 function mapStateToProps (state) {
     return {
         user: state.login.user

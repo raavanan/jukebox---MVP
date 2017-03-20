@@ -1,5 +1,10 @@
 import * as types from './ActionTypes'
 
+/**
+ *
+ * login reducer
+ *
+ */
 export default (state = {user : {} }, action) => {
   switch (action.type) {
 
