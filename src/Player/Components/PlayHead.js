@@ -56,6 +56,7 @@ playHeadWrapper = css({
             top: '45px',
             zIndex: 1,
             cursor: 'pointer',
+            userSelect: 'none',
             '& span': {
                 fontSize: '102px',
                 fontFamily: MontserratBold,
@@ -107,13 +108,18 @@ playHeadWrapper = css({
         })
 
         this.state.player.seekTo(this.state.startTime)
-        console.log('ready')
+        console.log('player ready')
     }
 
     onEnd = () => {
         const video = this.props.currentVideo
         this.props.dispatch({type: types.VIDEO_ENDED, video})
         clearInterval(this.state.playTimer)
+    }
+
+    voteNext = () => {
+        const params = {id: this.props.id, songId: this.props.currentVideo.itemId, uid: this.props.userId}
+        this.props.dispatch({type: types.VOTE_NEXT, params})
     }
 
     onPlay = (event) => {
@@ -156,7 +162,7 @@ playHeadWrapper = css({
     }
 
     validate = () => {
-        if(this.state.currentSongDuration > 8){
+        if(this.state.currentSongDuration > 10){
             alert('this song is too long')
             this.onEnd()
         }
@@ -174,7 +180,7 @@ playHeadWrapper = css({
 
     componentWillReceiveProps(nextProps){
         if(nextProps.currentVideo !== ''){
-            console.log('updated')
+
             const videoId = nextProps.currentVideo.id.videoId,
 
             startTime = nextProps.currentVideo && nextProps.currentVideo.playtime ? nextProps.currentVideo.playtime.time : 0,
@@ -223,9 +229,9 @@ playHeadWrapper = css({
                                 />
                         }
                         </div>
-                        <div onClick={this.onEnd} className='next'>
+                        <div onClick={this.voteNext} className='next'>
                             <div className='overlay'></div>
-                            <span>2</span>
+                            <span>{this.props.currentVideo.nextVoteCount}</span>
                             <h1>NxT</h1>
                             <img src={`/playerImg/nxt.jpg`} alt='img'/>
                         </div>
@@ -241,7 +247,8 @@ function mapStateToProps(state) {
         currentVideo : state.player.currentVideo,
         isEmpty : state.player.playlistEmpty,
         creatorId: state.player.creator.uid ? state.player.creator.uid : '',
-        userId : state.login.user.uid ? state.login.user.uid : ''
+        userId : state.login.user.uid ? state.login.user.uid : '',
+        id : state.player.id
     }
 }
 

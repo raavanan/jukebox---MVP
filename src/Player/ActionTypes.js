@@ -39,3 +39,7 @@ export const UPDATE_PLAY_TIME = 'update play time'
 export const PLAY_TIME_UPDATE_SUCCESS = 'playtime update success'
 
 export const PLAY_TIME_UPDATE_FAILURE = 'playtime update failure'
+
+export const VOTE_NEXT = 'vote to play next song'
+
+export const VOTE_UPDATED = 'next vote updated'

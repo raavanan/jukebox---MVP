@@ -1,9 +1,19 @@
 import React from 'react'
 import {css} from 'glamor'
 
+/**
+ *
+ * file imports
+ *
+ */
 import bg from './bg.jpg'
 import {MontserratBold} from '../../Fonts'
 
+/**
+ *
+ * style object for the outter wrapper
+ *
+ */
 const wrapperStyle = css({
     width:'100%',
     background: `url(${bg}) no-repeat center center fixed`,
@@ -26,6 +36,11 @@ const wrapperStyle = css({
     }
 })
 
+/**
+ *
+ * style object for create jukebox form
+ *
+ */
 const inlineForm = css({
     width: '300px',
     height: '60px',
@@ -69,6 +84,13 @@ const inlineForm = css({
     }
 })
 
+/**
+ *
+ * @function CreateForm
+ * @param (object) props
+ * @returns CreateForm component
+ *
+ */
 const CreateForm = (props) => {
 
     return (

@@ -1,6 +1,7 @@
 import { call, put, takeLatest, select, takeEvery, fork } from 'redux-saga/effects'
 import axios from 'axios'
 
+import {Database} from '../Firebase'
 import * as types from './ActionTypes'
 import {YOUTUBE_SEARCH_API} from '../global'
 import { push, getAll, get, remove, CHILD_ADDED, CHILD_REMOVED, sync, update } from '../helpers/firebase-sagas'
@@ -153,6 +154,40 @@ function* playtimeUpdate(action) {
 
 export function* watchPlaytimeUpdate() {
     yield takeEvery(types.UPDATE_PLAY_TIME, playtimeUpdate)
+}
+
+
+function* voteNext(action) {
+    const playlistKey = `playlist-${action.params.id}`,
+    songKey = action.params.songId,
+    uid = action.params.uid
+
+    const songRef = Database.ref(`${playlistKey}`).child(songKey)
+
+    function vote (song) {
+        if (song) {
+                if (!song.nextVotes) {
+                    song.nextVotes = {}
+                }
+                if(!song.nextVotes[uid]){
+                    song.nextVoteCount++
+                    song.nextVotes[uid] = true
+                }
+            }
+        return song
+    }
+
+    const voted = yield call([songRef, songRef.transaction], vote)
+
+    if(voted.committed){
+        const count = voted.snapshot.val().nextVoteCount
+        yield put({type:types.VOTE_UPDATED, count})
+    }
+
+}
+
+export function* watchVoteNext() {
+    yield takeEvery(types.VOTE_NEXT, voteNext)
 }
 
 

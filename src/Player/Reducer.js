@@ -1,6 +1,15 @@
 import * as types from './ActionTypes'
 
-const baseState = {isError: false,playlistEmpty:true,playlist : [], searchResults : [], currentVideo : '', prevVideo : {}, isSyncing : false, creator : {}}
+const baseState = {
+    isError: false,
+    playlistEmpty:true,
+    playlist : [],
+    searchResults : [],
+    currentVideo : '',
+    prevVideo : {},
+    isSyncing : false,
+    creator : {}
+  }
 
 export default (state = baseState, action) => {
   switch (action.type) {
@@ -87,6 +96,10 @@ export default (state = baseState, action) => {
       return {
         ...baseState
       }
+    }
+
+    case types.VOTE_UPDATED : {
+      return Object.assign({}, state, { currentVideo : {...state.currentVideo, nextVoteCount : action.count} })
     }
 
     default:
