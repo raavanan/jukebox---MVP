@@ -1,19 +1,38 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 
+
+/*--------  File imports  --------*/
+
 import Header from './Presenters/Header'
 import CreateForm from './Presenters/CreateForm'
 import {Auth} from '../Firebase'
 import {REQUEST_CREATE_JUKEBOX} from './ActionTypes'
 import {slugify, getRandomNumber} from '../global'
 
+
+/*--------  File import End  --------*/
+
 class CreateJukebox extends Component {
 
+    /**
+     *
+     * @function logout
+     * sign out logged in user
+     *
+     */
     logout = () => {
         location.href = '/login'
         return Auth().signOut()
     }
 
+    /**
+     *
+     * @function createJukebox
+     * gets the values entered by the user and 
+     * constructs jukeboxData object and dispatches Request to create a new jukebox
+     *
+     */
     createJukebox = () => {
         const name = document.getElementById('jukeboxName'),
         genre = document.getElementById('jukeboxGenre'),
@@ -31,6 +50,13 @@ class CreateJukebox extends Component {
         }
     }
 
+    /**
+
+        TODO:
+        - Add back button on header
+        - Add profile Options in Header
+
+     */
     render() {
         return (
             <div>
@@ -41,6 +67,12 @@ class CreateJukebox extends Component {
     }
 }
 
+/**
+ *
+ * mapStateToProps
+ * user : loggedin user object
+ *
+ */
 function mapStateToProps(state, props) {
   return {
       user : state.login.user

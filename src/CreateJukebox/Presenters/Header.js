@@ -1,6 +1,13 @@
 import React from 'react'
 import {css} from 'glamor'
 
+/**
+ *
+ * style objects for header components
+ *
+ */
+
+
 let headerStyle = css({
     width:'100%',
     position: 'relative'
@@ -26,6 +33,18 @@ const logout = css({
     right:'20px',
     zIndex: 9
 })
+
+
+/*--------  style objects end  --------*/
+
+
+/**
+ *
+ * @function Header
+ * @param (object) props
+ * @return Header component
+ */
+
 
 const Header = (props) => {
     return (

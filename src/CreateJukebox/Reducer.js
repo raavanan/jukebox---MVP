@@ -1,5 +1,10 @@
 import * as types from './ActionTypes'
 
+/**
+ *
+ * Create Jukebox Reducer
+ *
+ */
 export default (state = {isCreating: false, isError: false}, action) => {
   switch (action.type) {
     case types.REQUEST_CREATE_JUKEBOX : {
