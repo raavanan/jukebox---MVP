@@ -1,8 +1,20 @@
 import * as types from './ActionTypes'
 
+/**
+ *
+ * jukegrid reducer
+ *
+ */
 export default (state = {isFetching: true, isError: false, boxes : []}, action) => {
   switch (action.type) {
 
+    /**
+     *
+     * case GOT_ALL_JUKEBOXES
+     * parse the object from firebase to form an array
+     * of boxes
+     *
+     */
     case types.GOT_ALL_JUKEBOXES : {
         const data = action.data;
             return {
@@ -21,6 +33,12 @@ export default (state = {isFetching: true, isError: false, boxes : []}, action) 
         }
     }
 
+    /**
+     *
+     * case JUKEBOX_ADDED
+     * concat newly added jukebox to boxes
+     *
+     */
     case types.JUKEBOX_ADDED : {
         const jukebox = {...action.jukebox.value, id: action.jukebox.key}
         const syncdBoxes = state.isFetching ? state.boxes.concat(jukebox) : [jukebox]
@@ -32,6 +50,12 @@ export default (state = {isFetching: true, isError: false, boxes : []}, action) 
             }
     }
 
+    /**
+     *
+     * case JUKEBOX_REMOVED
+     * pop the jukebox which was deleted from boxes
+     *
+     */
     case types.JUKEBOX_REMOVED : {
         const syncdBoxes = state.boxes.pop({...action.jukebox.value, id: action.jukebox.key})
         return {

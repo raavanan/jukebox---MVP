@@ -3,9 +3,22 @@ import {connect} from 'react-redux'
 import {css} from 'glamor'
 import {withRouter} from 'react-router-dom'
 
+
+/**================================================== *
+ * ==========  File imports  ========== *
+ * ================================================== */
+
 import * as types from './ActionTypes'
 import {LISTEN_JUKEBOX} from '../Player/ActionTypes'
 import {MontserratBold} from '../Fonts'
+
+/* =======  End of file Imports  ======= */
+
+
+
+/**================================================== *
+ * ==========  wrapperStyle object  ========== *
+ * ================================================== */
 
 const wrapperStyle = css({
     width: '100%',
@@ -72,17 +85,39 @@ const wrapperStyle = css({
     }
 })
 
+/* =======  End of wrapperStyle object  ======= */
+
+
+
 class JukeboxGrid extends Component {
 
+    /**
+     *
+     * @function componentDidMount
+     * dispatch GET_ALL_JUKEBOXES on componentDidMount
+     */
     componentDidMount(){
         this.props.dispatch({type : types.GET_ALL_JUKEBOXES})
     }
 
+    /**
+     *
+     * @function listenTo
+     * @param (object) box
+     * dispatch action LISTEN_JUKEBOX
+     * route to player with box Id
+     */
     listenTo = (box) => {
         this.props.dispatch({type: LISTEN_JUKEBOX, box})
         this.props.history.push(`/player/${box.id}`)
     }
 
+    /**
+     *
+     * @function renderBoxes
+     * @return (JSX) retruns grid items
+     *
+     */
     renderBoxes = () => {
         return this.props.jukeboxes.map(box => {
             const listen = this.listenTo.bind(null, box)
@@ -99,6 +134,8 @@ class JukeboxGrid extends Component {
         })
     }
 
+    /* Render */
+
     render(){
         const renderBoxes = this.renderBoxes()
         return (
@@ -108,6 +145,12 @@ class JukeboxGrid extends Component {
         )
     }
 }
+
+/**
+ *
+ * mapStateToProps
+ * jukeboxes : array of jukeboxes
+ */
 
 function mapStateToProps(state) {
   return {
