@@ -21,14 +21,6 @@ export default (state = baseState, action) => {
       }
     }
 
-    case types.ADD_VIDEO : {
-      return {
-        ...state,
-        ...action.params,
-        playlistEmpty: false
-      }
-    }
-
     case types.FAILED_ADD_VIDEO : {
       return {
         ...state,
@@ -75,11 +67,22 @@ export default (state = baseState, action) => {
         const video = {...action.video.value, itemId: action.video.key}
         const syncdList = state.isSyncing ? state.playlist.concat(video) : [video]
 
-            return {
+        if(state.playlistEmpty){
+         return {
                 ...state,
                 playlist: syncdList,
-                isSyncing : true
+                isSyncing : true,
+                currentVideo : video,
+                playlistEmpty : false
             }
+        } else {
+          return {
+                ...state,
+                playlist: syncdList,
+                isSyncing : true,
+            }
+        }
+
     }
 
     case types.VIDEO_REMOVED : {

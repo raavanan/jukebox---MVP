@@ -92,11 +92,7 @@ class AddVideo extends Component {
         const {uid, displayName, photoURL} = this.props.user
         params.video.addedBy = {uid, displayName, photoURL}
         params.video.nextVoteCount = 0
-        params.nextVotes = {}
 
-        if(this.props.playlistEmpty){
-            params.currentVideo = video
-        }
         this.props.dispatch({type: ADD_VIDEO, params})
         this.props.close()
     }
