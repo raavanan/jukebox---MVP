@@ -1,7 +1,9 @@
-import { call, put, takeLatest, fork, takeEvery } from 'redux-saga/effects'
+import { call, put, takeLatest, fork, takeEvery, select } from 'redux-saga/effects'
+import { Database } from '../Firebase'
 
 import {getAll, sync, CHILD_ADDED, CHILD_REMOVED} from '../helpers/firebase-sagas'
 import * as types from './ActionTypes'
+import {getUserId} from './Reducer'
 
 
 /**
@@ -72,6 +74,47 @@ function* syncJukebox() {
     })
 }
 
+function* enterJukebox(action) {
+  const key = action.id,
+  uid = yield select(getUserId)
+
+    const ref = Database.ref('jukeboxes').child(key)
+
+    function addListner (box) {
+        if (box) {
+                if (!box.listners) {
+                    box.listners = {}
+                }
+                if(!box.listners[uid]){
+                    box.listnerCount++
+                    box.listners[uid] = true
+                }
+            }
+        return box
+    }
+
+    yield call([ref, ref.transaction], addListner)
+}
+
+function* leaveJukebox(action) {
+  const key = action.id,
+  uid = yield select(getUserId)
+
+    const ref = Database.ref('jukeboxes').child(key)
+
+    function removeListner (box) {
+        if (box) {
+                if(box.listners[uid]){
+                    box.listnerCount--
+                    box.listners[uid] = false
+                }
+            }
+        return box
+    }
+
+    yield call([ref, ref.transaction], removeListner)
+}
+
 /**
  *
  * @function watchGetJukeboxes
@@ -79,4 +122,22 @@ function* syncJukebox() {
  */
 export function* watchSyncJukebox() {
   yield takeEvery(types.SYNC_JUKEBOXES, syncJukebox)
+}
+
+/**
+ *
+ * @function watchEnterJukebox
+ * watch for ENTER_JUKEBOX action and call enterJukebox
+ */
+export function* watchEnterJukebox() {
+    yield takeEvery(types.ENTER_JUKEBOX, enterJukebox)
+}
+
+/**
+ *
+ * @function watchLeaveJukebox
+ * watch for LEAVE_JUKEBOX action and call leaveJukebox
+ */
+export function* watchLeaveJukebox() {
+    yield takeEvery(types.LEAVE_JUKEBOX, leaveJukebox)
 }

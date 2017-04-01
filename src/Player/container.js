@@ -8,6 +8,7 @@ import PlayHead from './Components/PlayHead'
 import Playlist from './Components/Playlist'
 import AddVideo from './Components/AddVideo'
 import * as types from './ActionTypes'
+import {LEAVE_JUKEBOX, ENTER_JUKEBOX} from '../JukeboxGrid/ActionTypes'
 
 class Player extends Component {
     state = {
@@ -34,19 +35,35 @@ class Player extends Component {
         })
     }
 
+    /**
+     *
+     * TODO : handle user closing window
+     *
+     */
+    handleWindowClose = () => {
+        alert('unload')
+        this.props.dispatch({type: LEAVE_JUKEBOX, id : this.props.match.params.id})
+    }
+
+    leave = () => {
+        this.props.history.push('/')
+    }
+
     componentDidMount() {
         this.props.dispatch({type: types.GET_PLAYLIST, id: this.props.match.params.id})
+        this.props.dispatch({type: ENTER_JUKEBOX, id: this.props.match.params.id})
     }
 
     componentWillUnmount(){
         this.props.dispatch({type: types.RESET_PLAYER})
+        this.props.dispatch({type: LEAVE_JUKEBOX, id : this.props.match.params.id})
     }
 
     render(){
         const songCount = this.props.playlist.length
         return (
             <div {...this.wrapper}>
-                <Header showPlaylist={this.togglePlaylist} addVideo={this.toggleAddVideo} songCount={songCount} togglePlaylist={this.state.showPlaylist} />
+                <Header leave={this.leave} showPlaylist={this.togglePlaylist} addVideo={this.toggleAddVideo} songCount={songCount} togglePlaylist={this.state.showPlaylist} />
                 <Playlist togglePlaylist={this.state.showPlaylist} playlist={this.props.playlist} />
                 <PlayHead togglePlaylist={this.state.showPlaylist} />
                 {this.state.showAddVideo && <AddVideo close={this.toggleAddVideo} />}
@@ -59,7 +76,7 @@ function mapStateToProps (state) {
     return {
         currentVideo: state.player.currentVideo,
         playlistEmpty: state.player.playlistEmpty,
-        playlist : state.player.playlist
+        playlist : state.player.playlist,
     }
 }
 

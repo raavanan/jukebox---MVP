@@ -10,6 +10,7 @@ import { MontserratRegular } from './Fonts'
 css.global(
     'html, body',
     { padding: 0,
+      background: '#ec5e2f',
       margin: 0,
       boxSizing: 'border-box',
       fontFamily: MontserratRegular

@@ -44,9 +44,12 @@ class CreateJukebox extends Component {
                 name : name.value,
                 slug : slugify(name.value),
                 img : `${getRandomNumber(101, 120)}.jpg`,
-                creator : {uid, displayName, photoURL}
+                creator : {uid, displayName, photoURL},
+                listnerCount : 0
             }
             this.props.dispatch({type : REQUEST_CREATE_JUKEBOX, jukeboxData})
+            name.value = ''
+            genre.value = ''
         }
     }
 

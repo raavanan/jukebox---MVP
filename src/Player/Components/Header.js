@@ -38,6 +38,9 @@ let btn = css({
                 '&:active': {
                     background: '#eb5322',
                     color: '#ffffff'
+                },
+                '&.right':{
+                    float:'left'
                 }
 })
 
@@ -50,7 +53,9 @@ const Header = (props) => {
     return (
         <div {...headerStyle}>
             <div {...navBar}>
-
+                <button className={`right ${btn}`} onClick={props.leave} type='button'>
+                leave
+                </button>
                 <h1 {...logoStyle}>Jukebox</h1>
 
                 <button {...btn} onClick={props.showPlaylist} type='button'>{`Playlist (${props.songCount})`}</button>

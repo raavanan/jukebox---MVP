@@ -68,3 +68,5 @@ export default (state = {isFetching: true, isError: false, boxes : []}, action) 
       return state;
   }
 }
+
+export const getUserId = (state) => (state.login.user.uid)

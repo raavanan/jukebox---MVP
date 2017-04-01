@@ -11,3 +11,7 @@ export const JUKEBOX_ADDED = 'jukebox added'
 export const JUKEBOX_REMOVED = 'jukebox removed'
 
 export const SYNC_JUKEBOXES = 'sync jukeboxes'
+
+export const ENTER_JUKEBOX = 'enter jukebox'
+
+export const LEAVE_JUKEBOX = 'leave jukebox'
