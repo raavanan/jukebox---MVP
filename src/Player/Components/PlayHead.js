@@ -118,8 +118,9 @@ playHeadWrapper = css({
     }
 
     voteNext = () => {
-        const params = {id: this.props.id, songId: this.props.currentVideo.itemId, uid: this.props.userId}
-        this.props.dispatch({type: types.VOTE_NEXT, params})
+        //const params = {id: this.props.id, songId: this.props.currentVideo.itemId, uid: this.props.userId}
+        //this.props.dispatch({type: types.VOTE_NEXT, params})
+        this.props.dispatch({type: types.VIDEO_ENDED, video : this.props.currentVideo})
     }
 
     onPlay = (event) => {
