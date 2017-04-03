@@ -43,3 +43,7 @@ export const PLAY_TIME_UPDATE_FAILURE = 'playtime update failure'
 export const VOTE_NEXT = 'vote to play next song'
 
 export const VOTE_UPDATED = 'next vote updated'
+
+export const SYNC_USERCOUNT = 'sync usercount'
+
+export const USER_COUNT_CHANGED = 'user count changed'

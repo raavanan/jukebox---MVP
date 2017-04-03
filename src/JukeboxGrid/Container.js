@@ -56,6 +56,12 @@ const wrapperStyle = css({
             },
             '& .listeners': {
                 position: 'absolute',
+                bottom: '15px',
+                left: '40px',
+                fontSize: '12px'
+            },
+            '& .genre': {
+                position: 'absolute',
                 bottom: '33px',
                 left: '40px',
                 fontSize: '12px'
@@ -125,7 +131,8 @@ class JukeboxGrid extends Component {
                 <div key={box.id} className='jukebox'>
                         <div className='info'>
                             <h1>{box.name}</h1>
-                            <p className='listeners'>{box.genre}</p>
+                            <p className='genre'>{box.genre}</p>
+                            <p className='listeners'>{box.listnerCount} Listners</p>
                             <button onClick={listen} type='button'>Listen</button>
                         </div>
                         <img src={`/genreImages/${box.img}`} alt='img'/>

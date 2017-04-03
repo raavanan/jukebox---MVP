@@ -52,6 +52,7 @@ class Player extends Component {
     componentDidMount() {
         this.props.dispatch({type: types.GET_PLAYLIST, id: this.props.match.params.id})
         this.props.dispatch({type: ENTER_JUKEBOX, id: this.props.match.params.id})
+        this.props.dispatch({type: types.SYNC_USERCOUNT})
     }
 
     componentWillUnmount(){
@@ -63,7 +64,7 @@ class Player extends Component {
         const songCount = this.props.playlist.length
         return (
             <div {...this.wrapper}>
-                <Header leave={this.leave} showPlaylist={this.togglePlaylist} addVideo={this.toggleAddVideo} songCount={songCount} togglePlaylist={this.state.showPlaylist} />
+                <Header name={this.props.name} leave={this.leave} showPlaylist={this.togglePlaylist} addVideo={this.toggleAddVideo} songCount={songCount} togglePlaylist={this.state.showPlaylist} />
                 <Playlist togglePlaylist={this.state.showPlaylist} playlist={this.props.playlist} />
                 <PlayHead togglePlaylist={this.state.showPlaylist} />
                 {this.state.showAddVideo && <AddVideo close={this.toggleAddVideo} />}
@@ -77,6 +78,7 @@ function mapStateToProps (state) {
         currentVideo: state.player.currentVideo,
         playlistEmpty: state.player.playlistEmpty,
         playlist : state.player.playlist,
+        name : state.player.name
     }
 }
 

@@ -200,6 +200,7 @@ playHeadWrapper = css({
         return (
             <div {...this.playHeadWrapper} style={{width: this.props.togglePlaylist ? '70%' : '100%'}}>
                     <h1>{this.state.videoTitle}</h1>
+                    <span>{`${this.props.listnerCount} listeners`}</span>
                     <div className='playHead'>
                         <div className='prev'>
                             <div className='overlay'></div>
@@ -248,7 +249,8 @@ function mapStateToProps(state) {
         isEmpty : state.player.playlistEmpty,
         creatorId: state.player.creator.uid ? state.player.creator.uid : '',
         userId : state.login.user.uid ? state.login.user.uid : '',
-        id : state.player.id
+        id : state.player.id,
+        listnerCount : state.player.listnerCount
     }
 }
 

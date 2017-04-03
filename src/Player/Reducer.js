@@ -59,7 +59,8 @@ export default (state = baseState, action) => {
     case types.LISTEN_JUKEBOX : {
       return {
         ...state,
-        ...action.box
+        ...action.box,
+        listnerCount : action.box.listnerCount + 1
       }
     }
 
@@ -103,6 +104,13 @@ export default (state = baseState, action) => {
 
     case types.VOTE_UPDATED : {
       return Object.assign({}, state, { currentVideo : {...state.currentVideo, nextVoteCount : action.count} })
+    }
+
+    case types.USER_COUNT_CHANGED : {
+      return {
+        ...state,
+        listnerCount : action.userCount
+      }
     }
 
     default:

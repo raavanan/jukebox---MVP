@@ -56,11 +56,10 @@ const Header = (props) => {
                 <button className={`right ${btn}`} onClick={props.leave} type='button'>
                 leave
                 </button>
-                <h1 {...logoStyle}>Jukebox</h1>
+                <h1 {...logoStyle}>{props.name}</h1>
 
                 <button {...btn} onClick={props.showPlaylist} type='button'>{`Playlist (${props.songCount})`}</button>
                 <button {...btn} onClick={props.addVideo} type='button'>Add song</button>
-
             </div>
         </div>
     )

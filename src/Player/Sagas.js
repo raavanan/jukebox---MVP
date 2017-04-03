@@ -4,7 +4,7 @@ import axios from 'axios'
 import {Database} from '../Firebase'
 import * as types from './ActionTypes'
 import {YOUTUBE_SEARCH_API} from '../global'
-import { push, getAll, get, remove, CHILD_ADDED, CHILD_REMOVED, sync, update } from '../helpers/firebase-sagas'
+import { push, getAll, get, remove, CHILD_ADDED, CHILD_REMOVED, CHILD_CHANGED, sync, update } from '../helpers/firebase-sagas'
 import {getKey, getCurrentVideo} from './Reducer'
 
 const getResults = (q) => {
@@ -190,4 +190,30 @@ export function* watchVoteNext() {
     yield takeEvery(types.VOTE_NEXT, voteNext)
 }
 
+function UserCountChanged(change) {
+    console.log('====================================change====================================================')
+    console.log(change)
+    console.log('====================================change====================================================')
+//    if(change.key === 'listnerCount'){
+//         return {
+//             type: types.USER_COUNT_CHANGED,
+//             userCount : change.value
+//         }
+//    }
+}
+
+function* syncUserCount() {
+
+    const jukeboxKey = yield select(getKey)
+
+    const path = `/jukeboxes/${jukeboxKey}`
+
+    yield fork(sync, path, {
+        [CHILD_CHANGED]: UserCountChanged,
+    })
+}
+
+export function* watchSyncUserCount() {
+  yield takeEvery(types.SYNC_USERCOUNT, syncUserCount)
+}
 

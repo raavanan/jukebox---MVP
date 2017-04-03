@@ -101,7 +101,6 @@ const CreateForm = (props) => {
                 <input id='jukeboxGenre' type='text' placeholder='Genre' />
                 <button onClick={props.createJukebox} type='button'>Create</button>
             </div>
-            <span>20K Listners</span>
         </div>
     )
 }

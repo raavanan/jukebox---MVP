@@ -100,14 +100,12 @@ function* leaveJukebox(action) {
   const key = action.id,
   uid = yield select(getUserId)
 
-    const ref = Database.ref('jukeboxes').child(key)
+  const ref = Database.ref('jukeboxes').child(key)
 
     function removeListner (box) {
         if (box) {
-                if(box.listners[uid]){
                     box.listnerCount--
-                    box.listners[uid] = false
-                }
+                    box.listners[uid] = null
             }
         return box
     }
